@@ -1,5 +1,4 @@
-#!/bin/bash
-#sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list.d/debian.sources
+#!/bin/bashsed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list.d/debian.sources
 apt update -y
 apt install curl gnupg2 ca-certificates zip unzip build-essential git python3 --no-install-recommends -y
 
