@@ -15,7 +15,7 @@ COPY --from=jsbuilder /build/fileserv /buildsrc/fileserv
 COPY --from=jsbuilder /build/ztnodeid /buildsrc/ztnodeid
 COPY --from=jsbuilder /build/build-gobinaries.sh /buildsrc/build-gobinaries.sh
 ENV CGO_ENABLED=0
-RUN apt update -y && \ 
+RUN apt update -y && \
     apt install zip -y && \
     sed -i "7i go mod tidy" /buildsrc/build-gobinaries.sh && \
     bash /buildsrc/build-gobinaries.sh
@@ -29,19 +29,17 @@ COPY runner.sh .
 RUN chmod a+x runner.sh && bash runner.sh
 
 WORKDIR /opt/key-networks/ztncui
-COPY --from=jsbuilder /build/artifact.zip .
-RUN unzip ./artifact.zip && \
-    rm -f ./artifact.zip
+# 直接 COPY 解压好的目录，不再 COPY zip 再解压（消除约 20MB 的 zip 中间层）
+COPY --from=jsbuilder /build/ztncui-dist /opt/key-networks/ztncui
 
 WORKDIR /
 COPY --from=jsbuilder /build/start_firsttime_init.sh /start_firsttime_init.sh
 COPY --from=jsbuilder /build/start_zt1.sh /start_zt1.sh
 COPY --from=jsbuilder /build/start_ztncui.sh /start_ztncui.sh
 
-COPY --from=gobuilder /buildsrc/artifact-go.zip /tmp/
-RUN unzip -d /usr/local/bin /tmp/artifact-go.zip && \
-    rm -rf /tmp/artifact-go.zip && \
-    chmod 0755 /usr/local/bin/* && \
+# 直接 COPY go 二进制目录，消除 artifact-go.zip 中间层（约 8MB）
+COPY --from=gobuilder /buildsrc/binaries /usr/local/bin/
+RUN chmod 0755 /usr/local/bin/* && \
     chmod 0755 /start_*.sh
 
 COPY --from=jsbuilder /build/s6-rc.d/ /etc/s6-overlay/s6-rc.d/

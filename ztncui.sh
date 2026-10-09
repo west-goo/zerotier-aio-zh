@@ -162,7 +162,7 @@ sed -i "s#network controller UI#网络控制器用户界面#g" ztncui/src/views/
 
 sed -i "s#Logout#注销#g" ztncui/src/views/head_layout.pug
 sed -i "s#network controller UI by#网络控制器用户界面汉化作者#g" ztncui/src/views/index.pug
-sed -i "s#a(href='https://key-networks.com' target='_blank') Key Networks#a(href='https://github.com/niliovo/zerotier-aio-zh' target='_blank') Nili#g" ztncui/src/views/index.pug
+sed -i "s#a(href='https://key-networks.com' target='_blank') Key Networks#a(href='https://github.com/westgoo/zerotier-aio-zh' target='_blank') Nili#g" ztncui/src/views/index.pug
 sed -i "s#This network controller has a ZeroTier address of#该控制器的ZeroTier地址为#g" ztncui/src/views/index.pug
 sed -i "s#ZeroTier version#ZeroTier版本为#g" ztncui/src/views/index.pug
 sed -i "s#List all networks on this network controller#列出该网络控制器上的所有网络#g" ztncui/src/views/index.pug
@@ -314,3 +314,7 @@ sed -i "s#ZT rfc4193 (/128 for each device)#ZeroTier RFC4193（每个设备 /128
 sed -i "s#Auto-assign from IP Assignment Pool#从IP分配池自动分配#g" ztncui/src/views/v6AssignMode.pug
 
 bash /build/build-ztncui.sh
+
+# 解压 artifact.zip 为目录，供 runner 直接 COPY（消除 zip 中间层）
+mkdir -p /build/ztncui-dist
+unzip -o /build/artifact.zip -d /build/ztncui-dist
