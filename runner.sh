@@ -19,6 +19,8 @@ usermod -aG zerotier-one zerotier-one
 usermod -aG zerotier-one root
 curl -sL -o zt-one.sh https://install.zerotier.com
 bash zt-one.sh
+apt-get install -y --allow-downgrades zerotier-one=1.14.2-*
+apt-mark hold zerotier-one
 rm -f zt-one.sh
 apt clean -y
 rm -rf /var/lib/zerotier-one
