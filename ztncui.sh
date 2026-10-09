@@ -14,7 +14,7 @@ fnm install ${NODEJS_MAJOR}
 #apt install -y nodejs --no-install-recommends
 #rm -f node_inst.sh
 
-git clone https://github.com/kmahyyg/ztncui-aio.git tmp
+git clone --recursive https://github.com/kmahyyg/ztncui-aio.git tmp
 mv tmp/* /build
 npm config set registry https://registry.npmmirror.com
 
