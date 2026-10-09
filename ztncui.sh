@@ -313,6 +313,9 @@ sed -i "s#ZT 6plane (/80 routable for each device)#ZeroTier 6 PLANE(每个设备
 sed -i "s#ZT rfc4193 (/128 for each device)#ZeroTier RFC4193（每个设备 /128）#g" ztncui/src/views/v6AssignMode.pug
 sed -i "s#Auto-assign from IP Assignment Pool#从IP分配池自动分配#g" ztncui/src/views/v6AssignMode.pug
 
+# 隐藏网络详情页底部的"网络详细信息"JSON 转储区块（h3#detail 到 +json_value 之间整段删除）
+sed -i '/h3#detail/,/+json_value(value)/d' ztncui/src/views/network_detail.pug
+
 bash /build/build-ztncui.sh
 
 # 解压 artifact.zip 为目录，供 runner 直接 COPY（消除 zip 中间层）
