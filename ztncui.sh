@@ -316,6 +316,9 @@ sed -i "s#Auto-assign from IP Assignment Pool#从IP分配池自动分配#g" ztnc
 # 隐藏网络详情页底部的"网络详细信息"JSON 转储区块（h3#detail 到 +json_value 之间整段删除）
 sed -i '/h3#detail/,/+json_value(value)/d' ztncui/src/views/network_detail.pug
 
+# 删除网络详情页底部的"网络"返回按钮（只保留刷新按钮）
+sed -i "/name='networks'/d" ztncui/src/views/network_detail.pug
+
 bash /build/build-ztncui.sh
 
 # 解压 artifact.zip 为目录，供 runner 直接 COPY（消除 zip 中间层）
