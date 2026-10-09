@@ -319,6 +319,28 @@ sed -i '/h3#detail/,/+json_value(value)/d' ztncui/src/views/network_detail.pug
 # 删除网络详情页底部的"网络"返回按钮（只保留刷新按钮）
 sed -i "/name='networks'/d" ztncui/src/views/network_detail.pug
 
+# 成员列表表头点击排序（纯前端 JS）
+sed -i "/a.btn.btn-default(href='' name='refresh'/i\\
+  script.\\
+    \$(function() {\\
+      \$('table tr:first-child td').css('cursor','pointer').on('click', function() {\\
+        var col = \$(this).index();\\
+        if (col === 0) return;\\
+        var \$table = \$(this).closest('table');\\
+        var \$rows = \$table.find('tr').not(':first').get();\\
+        var asc = \$(this).hasClass('sort-asc');\\
+        \$table.find('tr:first-child td').removeClass('sort-asc sort-desc');\\
+        \$(this).addClass(asc ? 'sort-desc' : 'sort-asc');\\
+        \$rows.sort(function(a,b){\\
+          var va = \$(a).find('td').eq(col).text().trim();\\
+          var vb = \$(b).find('td').eq(col).text().trim();\\
+          return (asc?-1:1)*va.localeCompare(vb, undefined, {numeric:true});\\
+        });\\
+        \$.each(\$rows, function(i,row){ \$table.append(row); });\\
+      });\\
+    });
+" ztncui/src/views/network_detail.pug
+
 bash /build/build-ztncui.sh
 
 # 解压 artifact.zip 为目录，供 runner 直接 COPY（消除 zip 中间层）
