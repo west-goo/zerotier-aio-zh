@@ -19,8 +19,8 @@ usermod -aG zerotier-one zerotier-one
 usermod -aG zerotier-one root
 curl -sL -o zt-one.sh https://install.zerotier.com
 bash zt-one.sh
-# 锁定 1.14.2（1.16+ 已移除 controller，必须停在 1.14.2）
-apt-get install -y --allow-downgrades zerotier-one=1.14.2-*
+# 锁定 1.14.2（1.16+ 已移除 controller，必须停在 1.14.2；源里包版本就是 1.14.2，不要加通配符）
+apt-get install -y --allow-downgrades zerotier-one=1.14.2
 apt-mark hold zerotier-one
 rm -f zt-one.sh
 
