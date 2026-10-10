@@ -319,24 +319,33 @@ sed -i '/h3#detail/,/+json_value(value)/d' ztncui/src/views/network_detail.pug
 # 删除网络详情页底部的"网络"返回按钮（只保留刷新按钮）
 sed -i "/name='networks'/d" ztncui/src/views/network_detail.pug
 
-# 成员列表表头点击排序（纯前端 JS）
+# 成员列表表头点击排序（纯前端 JS，localStorage 记忆，默认按节点状态）
 sed -i "/a.btn.btn-default(href='' name='refresh'/i\\
   script.\\
     \$(function() {\\
-      \$('table tr:first-child td').css('cursor','pointer').on('click', function() {\\
-        var col = \$(this).index();\\
-        if (col === 0) return;\\
-        var \$table = \$(this).closest('table');\\
+      var \$table = \$('table').first();\\
+      function doSort(col, asc) {\\
         var \$rows = \$table.find('tr').not(':first').get();\\
-        var asc = \$(this).hasClass('sort-asc');\\
-        \$table.find('tr:first-child td').removeClass('sort-asc sort-desc');\\
-        \$(this).addClass(asc ? 'sort-desc' : 'sort-asc');\\
         \$rows.sort(function(a,b){\\
           var va = \$(a).find('td').eq(col).text().trim();\\
           var vb = \$(b).find('td').eq(col).text().trim();\\
           return (asc?-1:1)*va.localeCompare(vb, undefined, {numeric:true});\\
         });\\
         \$.each(\$rows, function(i,row){ \$table.append(row); });\\
+        \$table.find('tr:first-child td').removeClass('sort-asc sort-desc');\\
+        \$table.find('tr:first-child td').eq(col).addClass(asc ? 'sort-asc' : 'sort-desc');\\
+      }\\
+      // 读取上次排序，默认列6=节点状态，升序\\
+      var savedCol = parseInt(localStorage.getItem('zt_sort_col') || '6');\\
+      var savedAsc = localStorage.getItem('zt_sort_asc') !== '0';\\
+      doSort(savedCol, savedAsc);\\
+      \$table.find('tr:first-child td').css('cursor','pointer').on('click', function() {\\
+        var col = \$(this).index();\\
+        if (col === 0) return;\\
+        var asc = !\$(this).hasClass('sort-asc');\\
+        localStorage.setItem('zt_sort_col', col);\\
+        localStorage.setItem('zt_sort_asc', asc ? '1' : '0');\\
+        doSort(col, asc);\\
       });\\
     });
 " ztncui/src/views/network_detail.pug
