@@ -13,6 +13,7 @@
 - [zerotier/ZeroTierOne](https://github.com/zerotier/ZeroTierOne)
 - [kmahyyg/ztncui-aio](https://github.com/kmahyyg/ztncui-aio)
 - [key-networks/ztncui](https://github.com/key-networks/ztncui)
+- [niliovo/zerotier-aio-zh](https://github.com/niliovo/zerotier-aio-zh)
 
 **注意，本仓库为汉化仓库，提交ISSUE请前往[原仓库](https://github.com/kmahyyg/ztncui-aio)**
 
@@ -31,54 +32,31 @@
 
 ### ⚠️ Breaking Change
 
-
-
 * ZeroTier 锁定在 **1.14.2**（1.16+ 已移除内置 controller，ztncui 无法管理网络，必须停在此版本）
 
-
-
 ### ✨ 新增
-
-
-
 * 成员列表表头点击排序，支持升 / 降序切换
-
-* 排序偏好通过 localStorage 持久化，下次打开自动恢复
-
-* 默认按 "节点状态" 列排序（在线节点优先）
-
 * 完整中文汉化界面
 
 ### 🎨 优化
 
-
-
 * **镜像体积**：从～216MB 缩减至～186MB
 
-
   * 消除 artifact.zip（19.9MB）和 artifact-go.zip（7.67MB）中间层
-
   * runner 阶段直接 COPY 解压后的目录
-
   * 精简运行时依赖，清理 apt 缓存
 
 * 网络详情页移除底部冗余的 JSON 字段转储区块, 网络详情页移除多余的 "网络" 返回按钮，只保留 "刷新"
 
 ### 📦 构建
 
-
-
 * 构建平台仅保留 `linux/amd64`
 
 * GitHub Actions 支持手动触发构建
 
-
-
 ***
 
 ## 镜像
-
-
 
 ```
 docker pull westgoo/zerotier-aio-zh:latest
