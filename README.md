@@ -52,7 +52,8 @@
 
 * 构建平台仅保留 `linux/amd64`
 
-* GitHub Actions 支持手动触发构建
+* GitHub Actions 仅支持手动触发构建
+* 关闭 GitHub Actions 的push/watch/cron构建
 
 ***
 
